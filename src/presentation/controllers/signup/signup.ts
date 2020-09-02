@@ -6,7 +6,7 @@ import {
   AddAccount
 } from './signup-protocols'
 import { MissingParamError, InvalidParamError } from '../../errors'
-import { badRequest, serverError, ok } from '../../helper'
+import { badRequest, serverError, ok } from '../../helpers'
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator
