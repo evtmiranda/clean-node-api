@@ -1,9 +1,10 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
 import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest } from '../helper/httpHelper'
+import { badRequest, internalServerError } from '../helper/http-helper'
 import { Controller } from '../protocols/controller'
-import { EmailValidator } from '../protocols/emailValidator'
+import { EmailValidator } from '../protocols/email-validator'
 import { InvalidParamError } from '../errors/invalid-param-error'
+import { ServerError } from '../errors/server-error'
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator
@@ -21,8 +22,12 @@ export class SignUpController implements Controller {
       }
     }
 
-    if (!this.emailValidator.isValid(httpRequest.body.email)) {
-      return badRequest(new InvalidParamError('email'))
+    try {
+      if (!this.emailValidator.isValid(httpRequest.body.email)) {
+        return badRequest(new InvalidParamError('email'))
+      }
+    } catch (error) {
+      return internalServerError(new ServerError())
     }
 
     return {
