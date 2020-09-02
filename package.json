@@ -5,14 +5,15 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "test:staged": "jest"
+    "test:staged": "jest",
+    "check": "npm-check -s -u"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.12",
-    "@types/node": "^14.6.2",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@types/jest": "^26.0.13",
+    "@types/node": "^14.6.3",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
     "eslint": "7",
-    "eslint-config-standard-with-typescript": "^16.0.0",
+    "eslint-config-standard-with-typescript": "^19.0.1",
     "eslint-plugin-import": "2",
     "eslint-plugin-node": "11",
     "eslint-plugin-promise": "4",
