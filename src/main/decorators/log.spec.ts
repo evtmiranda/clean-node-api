@@ -21,6 +21,12 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'any_password'
 })
 
+const makeFakeServerError = (): HttpResponse => {
+  const fakeError = new Error()
+  fakeError.stack = 'any_stack'
+  return serverError(fakeError)
+}
+
 const makeControllerStub = (): Controller => {
   class ControllerStub implements Controller {
     async handle(): Promise<HttpResponse> {
@@ -74,12 +80,9 @@ describe('LogDecorator', () => {
 
   test('Should call LogErrorRepository with correct error if controller returns a server error', async () => {
     const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
-
-    const fakeError = new Error()
-    fakeError.stack = 'any_stack'
-    const error = serverError(fakeError)
-
-    jest.spyOn(controllerStub, 'handle').mockReturnValue(Promise.resolve(error))
+    jest
+      .spyOn(controllerStub, 'handle')
+      .mockReturnValue(Promise.resolve(makeFakeServerError()))
     const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
     await sut.handle(makeFakeHttpRequest())
     expect(logSpy).toBeCalledWith('any_stack')
